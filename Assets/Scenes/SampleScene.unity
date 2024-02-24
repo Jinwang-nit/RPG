@@ -2238,7 +2238,7 @@ GameObject:
   - component: {fileID: 1200292281}
   - component: {fileID: 1200292280}
   m_Layer: 0
-  m_Name: Trriger
+  m_Name: DialogueTrriger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2326,6 +2326,7 @@ MonoBehaviour:
         m_Calls: []
   NPCTransform: {fileID: 1708050654}
   notice: {fileID: 311447418}
+  dialogueManager: {fileID: 19586175}
   hasDialogue: 0
 --- !u!65 &1200292281
 BoxCollider:

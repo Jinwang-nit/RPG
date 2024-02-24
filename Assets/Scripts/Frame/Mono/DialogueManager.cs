@@ -32,9 +32,6 @@ public class DialogueManager : MonoBehaviour
 
     public void DialogueStart(List<DialogueString> textToPrint, Transform NPC) //   开始对话
     {
-        Debug.Log("开始对话");
-
-
         dialogueParent.SetActive(true);
         playerController.isDialog = true;
         Cursor.lockState = CursorLockMode.None;
@@ -144,7 +141,5 @@ public class DialogueManager : MonoBehaviour
         optionSelected = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        Debug.Log("结束对话");
     }
 }

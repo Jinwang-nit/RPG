@@ -8,24 +8,26 @@ public class DialogueTrriger : MonoBehaviour
     [SerializeField] private List<DialogueString> dialogueStrings = new List<DialogueString>();
     [SerializeField] private Transform NPCTransform;
     [SerializeField] private TMP_Text notice;
+    [SerializeField] private DialogueManager dialogueManager;
 
     public bool hasDialogue = false;
+    private bool inTrigger = false;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !hasDialogue)
         {
             notice.enabled = true;
+            inTrigger = true;
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-        if (other.CompareTag("Player") && !hasDialogue && Input.GetKeyDown(KeyCode.F))
+        if ( inTrigger && !hasDialogue && Input.GetKeyDown(KeyCode.F))
         {
             notice.enabled = false;
-            other.gameObject.GetComponent<DialogueManager>().DialogueStart(dialogueStrings, NPCTransform);
-            hasDialogue = true;
+            dialogueManager.DialogueStart(dialogueStrings, NPCTransform);
         }
     }
 
@@ -34,6 +36,7 @@ public class DialogueTrriger : MonoBehaviour
         if (other.CompareTag("Player") && !hasDialogue)
         {
             notice.enabled = false;
+            inTrigger = false;
         }
     }
 }
