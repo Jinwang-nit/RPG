@@ -588,10 +588,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use F key to talk
+  m_text: "\u6309 F \u952E\u8FDB\u884C\u5BF9\u8BDD"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d43ce7a33aba2504a8faaa08de07797e, type: 2}
+  m_sharedMaterial: {fileID: -3524146534077794986, guid: d43ce7a33aba2504a8faaa08de07797e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2285,11 +2285,11 @@ MonoBehaviour:
     endDialogueEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: How are you?
+  - text: "\u4F60\u597D\uFF01\u5F88\u9AD8\u5174\u89C1\u5230\u4F60"
     isEnd: 0
     isQuestion: 1
-    answerOption1: I am good.
-    answerOption2: I hate you.
+    answerOption1: "\u8C22\u8C22\uFF0C\u6211\u4E5F\u5F88\u9AD8\u5174\u89C1\u5230\u4F60"
+    answerOption2: "\u6211\u8BA8\u538C\u4F60\uFF0Cgun"
     option1IndexJump: 2
     option2IndexJump: 3
     startDialogueEvent:
@@ -2298,7 +2298,7 @@ MonoBehaviour:
     endDialogueEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: That greater to hear !
+  - text: "\u8C22\u8C22\uFF01"
     isEnd: 1
     isQuestion: 0
     answerOption1: 
@@ -2311,7 +2311,7 @@ MonoBehaviour:
     endDialogueEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: WHAT????
+  - text: "\u50BB\u903C"
     isEnd: 1
     isQuestion: 0
     answerOption1: 
@@ -2561,10 +2561,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is my dialogue system
+  m_text: "\u8FD9\u662F\u4E00\u4E2A\u5BF9\u8BDD\u7CFB\u7EDF"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d43ce7a33aba2504a8faaa08de07797e, type: 2}
+  m_sharedMaterial: {fileID: -3524146534077794986, guid: d43ce7a33aba2504a8faaa08de07797e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2761,8 +2761,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d43ce7a33aba2504a8faaa08de07797e, type: 2}
+  m_sharedMaterial: {fileID: -3524146534077794986, guid: d43ce7a33aba2504a8faaa08de07797e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2895,8 +2895,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d43ce7a33aba2504a8faaa08de07797e, type: 2}
+  m_sharedMaterial: {fileID: -3524146534077794986, guid: d43ce7a33aba2504a8faaa08de07797e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
