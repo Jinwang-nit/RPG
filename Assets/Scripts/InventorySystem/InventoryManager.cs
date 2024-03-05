@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -16,9 +17,15 @@ public class InventoryManager : MonoBehaviour
     public Transform rayOrigin;
     public float raycastDistance = 1f;
     public LayerMask itemMask;
+    public Transform dropLocation;
 
     [Header("相机")]
     public CinemachineFreeLook freeLookCamera;
+
+    [Header("移动背包物品")]
+    public Image dragIconImage;
+    private Item currentDragItem;
+    private int currentDragIndex = -1;
 
     private bool hasInventory = false;
 
@@ -43,13 +50,44 @@ public class InventoryManager : MonoBehaviour
             hasInventory = false ; 
             toggleInventory(hasInventory);
         }
+
+
+        if (hasInventory && Input.GetMouseButtonDown(0))
+        {
+            dragInventoryIcon();
+        }
+        else if (currentDragIndex != -1 && Input.GetMouseButtonUp(0) || currentDragIndex != -1 && !hasInventory)
+        {
+            dropInventoryIcon();
+        }
+
+        dragIconImage.transform.position = Input.mousePosition;
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            DropItem();
+        }
+    }
+
+    private void DropItem()
+    {
+        for (int i = 0; i < InventorySlots.Count; i++)
+        {
+            Slot curSlot = InventorySlots[i];
+            if (curSlot.hasItem() && curSlot.hovered)
+            {
+                curSlot.GetItem().gameObject.SetActive(true);
+                curSlot.GetItem().gameObject.transform.position = new Vector3(dropLocation.position.x, curSlot.GetItem().gameObject.transform.position.y, dropLocation.position.z);
+                curSlot.SetSlot(null);
+                break;
+            }
+        }
     }
 
     private void itemRaycast(bool hasClickend = false)
     {
         Ray ray = new Ray(rayOrigin.position, player.Model.transform.forward);
         RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction, Color.red);
         if (Physics.Raycast(ray, out hit, raycastDistance, itemMask))
         {
             if (hit.collider != null)
@@ -68,7 +106,6 @@ public class InventoryManager : MonoBehaviour
                     Item newItem = hit.collider.GetComponent<Item>();
                     if (newItem)
                     {
-                        itemHoverText.enabled = true;
                         itemHoverText.text = newItem.name;
                     }
                 }
@@ -76,48 +113,44 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            itemHoverText.enabled = false;
+            itemHoverText.text = "";
         }
     }
 
     private void AddItemToInventory(Item item)
     {
         int leftoverQuantity = item.currentQuantity;
-        Slot openSlot = null;
         for (int i = 0; i < InventorySlots.Count; i++)
         {
-            Item  heldItem = InventorySlots[i].getItem();
+            Item heldItem = InventorySlots[i].GetItem();
             if (heldItem != null && heldItem.name == item.name ) // 背包中已经有了这样物品
             {
                 int freeSpaceSlot = heldItem.maxQuantity - heldItem.currentQuantity;
+
                 if (freeSpaceSlot >= leftoverQuantity) // 余量足够就直接全放进去
                 {
                     heldItem.currentQuantity += leftoverQuantity;
                     Destroy(item.gameObject);
-                    return;
                 }
                 else // 不够就放满为止
                 {
                     heldItem.currentQuantity = heldItem.maxQuantity;
                     leftoverQuantity -= freeSpaceSlot;
                 }
-            }
-            else if (heldItem == null) // 背包中没有这样物品或者是一个格子塞不下，就新开一个格子
-            {
-                if (!openSlot) openSlot = InventorySlots[i];
-            }
-        }
 
-        if (leftoverQuantity > 0 && openSlot)
-        {
-            openSlot.setSlot(item);
-            item.currentQuantity = Mathf.Min(item.maxQuantity, leftoverQuantity);
-            item.gameObject.SetActive(false);
+                InventorySlots[i].Updata(); // 更新一下数据
+                break;
+            }
+            else if (heldItem == null) // 背包中没有这样物品就新开一个格子
+            {
+                item.currentQuantity = Mathf.Min(item.maxQuantity, leftoverQuantity);
+                InventorySlots[i].SetSlot(item);
+                leftoverQuantity -= Mathf.Min(item.maxQuantity, leftoverQuantity);
+                break;
+            }
         }
-        else
-        {
-            item.currentQuantity = leftoverQuantity;
-        }
+        if (leftoverQuantity <= 0) item.gameObject.SetActive(false);
+        else item.currentQuantity = leftoverQuantity;
     }
 
     private void toggleInventory(bool enable)
@@ -126,5 +159,59 @@ public class InventoryManager : MonoBehaviour
         Cursor.lockState = enable ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = enable;
         freeLookCamera.enabled = !enable;
+    }
+
+    private void dragInventoryIcon()
+    {
+        for (int i = 0; i < InventorySlots.Count; i++)
+        {
+            Slot curSlot = InventorySlots[i];
+
+            if ( curSlot.hovered && curSlot.hasItem())
+            {
+                currentDragIndex = i;
+                currentDragItem = curSlot.GetItem();
+                dragIconImage.sprite = currentDragItem.icon;
+                dragIconImage.color = new Color(1, 1, 1, 1);
+                curSlot.SetSlot(null);
+            }
+        }
+    }
+
+    private void dropInventoryIcon()
+    {
+        dragIconImage.sprite = null;
+        dragIconImage.color = new Color(1, 1, 1, 0);
+        for (int i = 0; i < InventorySlots.Count; i++)
+        {
+            Slot curSlot = InventorySlots[i];
+            if (curSlot.hovered)
+            {
+                if (curSlot.hasItem()) // 不是空格子，就交换
+                {
+                    Item temp = curSlot.GetItem();
+                    curSlot.SetSlot(currentDragItem);
+                    InventorySlots[currentDragIndex].SetSlot(temp);
+                    resetDragVariables();
+                    return;
+                }
+                else // 是空格子就直接放
+                {
+                    curSlot.SetSlot(currentDragItem);
+                    resetDragVariables();
+                    return;
+                }
+            }
+        }
+
+        // 没有选择任何格子,就取消操作
+        InventorySlots[currentDragIndex].SetSlot(currentDragItem);
+        resetDragVariables();
+    }
+
+    private void resetDragVariables()
+    {
+        currentDragIndex = -1;
+        currentDragItem = null;
     }
 }
