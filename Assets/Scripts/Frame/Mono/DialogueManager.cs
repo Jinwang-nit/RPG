@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Runtime.InteropServices;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : SingletonMono<DialogueManager>
 {
+    [Header("对话属性")]
     [SerializeField] private GameObject dialogueParent;
     [SerializeField] private TMP_Text dialogueText; // 当前对话框
     [SerializeField] private Button option1Button;
@@ -23,6 +23,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private PlayerController playerController;
     private ModelBase playerModel;
     private int currentDialogueIndex = 0;
+
+    [Header("其它")]
+    public GameObject InventorySystem;
 
     private void Start()
     {
@@ -139,6 +142,7 @@ public class DialogueManager : MonoBehaviour
         playerController.isDialog = false;
         dialogueTrriger.hasDialogue = false;
         optionSelected = false;
+        InventorySystem.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

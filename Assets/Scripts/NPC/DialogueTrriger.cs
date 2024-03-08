@@ -28,6 +28,7 @@ public class DialogueTrriger : MonoBehaviour
         {
             notice.enabled = false;
             dialogueManager.DialogueStart(dialogueStrings, NPCTransform);
+            DialogueManager.instance.InventorySystem.SetActive(false);
         }
     }
 
